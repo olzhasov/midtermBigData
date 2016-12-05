@@ -1,0 +1,37 @@
+from selenium import webdriver 
+import xlsxwriter 
+
+driver = webdriver.Firefox() 
+driver.get("https://www.nur.kz/1274317-fenomenalnyy-rozygrysh-tes..") 
+
+xl = xlsxwriter.Workbook('midEra.xlsx') 
+
+xsheet = xl.add_worksheet() 
+
+driver.execute_script("window.scrollTo(0, document.body.scrollHeight);") 
+driver.execute_script("window.scrollTo(0, document.body.scrollHeight);") 
+
+
+xsheet.write_string(0, 0, 'Comments') 
+xsheet.write_string(0, 1, 'Likes') 
+xsheet.write_string(0, 2, 'Authors') 
+
+comments = driver.find_elements_by_xpath('/html/body/section[2]/div[2]/section/div[7]/div[2]/ul/li/div[2]/div[1]') 
+numlikes = driver.find_elements_by_xpath('/html/body/section[2]/div[2]/section/div[7]/div[2]/ul/li/div[1]/span[3]/div[1]/span[1]') 
+authors = driver.find_elements_by_xpath('/html/body/section[2]/div[2]/section/div[7]/div[2]/ul/li/div[1]/span[1]') 
+
+
+k=1 
+for i in comments: 
+xsheet.write_rich_string(k, 0, i.text) 
+k = k + 1 
+n=1 
+for i in numlikes: 
+xsheet.write_rich_string(n, 1, i.text) 
+n = n + 1 
+m=1 
+for i in authors: 
+xsheet.write_rich_string(m, 2, i.text) 
+m = m + 1 
+
+xl.close()
